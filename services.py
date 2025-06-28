@@ -10,13 +10,11 @@ logger = logging.getLogger(__name__)
 
 class VideoProcessingService:
     def __init__(self):
-        # Set API key for legacy API
         self.api_key = os.getenv("OPENAI_API_KEY")
         if not self.api_key:
             logger.warning("OPENAI_API_KEY not found in environment variables")
         else:
-            # Set the API key for legacy API calls
-            openai.api_key = self.api_key
+            self.client = openai.OpenAI(api_key=self.api_key)
 
     def extract_transcript(self, video_data: bytes) -> str:
         """Extract transcript from video using OpenAI Whisper API"""
@@ -34,7 +32,7 @@ class VideoProcessingService:
 
             # Send audio to OpenAI Whisper API using legacy API
             with open(temp_audio_path, "rb") as audio_file:
-                response = openai.Audio.transcribe(
+                response = self.client.audio.transcriptions.create(
                     model="whisper-1",
                     file=audio_file
                 )
@@ -73,8 +71,8 @@ class VideoProcessingService:
             Title:"""
             
             # Use legacy API for chat completion
-            response = openai.ChatCompletion.create(
-                model="gpt-4o-mini",
+            response = self.client.chat.completions.create(
+                model="gpt-4o",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant that creates concise, keyword-rich titles for videos based on their content."},
                     {"role": "user", "content": prompt}
@@ -123,8 +121,8 @@ class VideoProcessingService:
             Keywords:"""
             
             # Use legacy API for chat completion
-            response = openai.ChatCompletion.create(
-                model="gpt-4o-mini",
+            response = self.client.chat.completions.create(
+                model="gpt-4o",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant that extracts relevant keywords and tags from video content for search optimization."},
                     {"role": "user", "content": prompt}

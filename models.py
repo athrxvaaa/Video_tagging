@@ -10,6 +10,21 @@ class VideoResponse(BaseModel):
     created_at: datetime = Field(..., description="Upload timestamp")
     download_url: Optional[str] = Field(None, description="Direct download URL for the video")
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "id": "507f1f77bcf86cd799439011",
+                    "title": "Sample Video",
+                    "transcript": "Sample transcript",
+                    "tags": ["sample", "video"],
+                    "created_at": "2024-01-01T00:00:00",
+                    "download_url": "/video/507f1f77bcf86cd799439011"
+                }
+            ]
+        }
+    }
+
 class SearchResponse(BaseModel):
     videos: List[VideoResponse] = Field(..., description="List of videos")
     total: int = Field(..., description="Total number of videos found")
