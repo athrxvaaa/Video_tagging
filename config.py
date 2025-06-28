@@ -6,6 +6,9 @@ class Settings:
     MONGODB_URI: str = os.getenv("MONGODB_URI", "mongodb+srv://atharvaj:D13hJoR1fRkMMpO4@letsupgrade.vsucyfj.mongodb.net/video_tagging?retryWrites=true&w=majority")
     DATABASE_NAME: str = os.getenv("DATABASE_NAME", "video_tagging")
     
+    # OpenAI settings
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    
     # File upload settings
     MAX_FILE_SIZE: int = 100 * 1024 * 1024  # 100MB
     ALLOWED_VIDEO_TYPES: list = [

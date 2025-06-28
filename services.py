@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class VideoProcessingService:
     def __init__(self):
-        self.api_key = os.getenv("OPENAI_API_KEY")
+        self.api_key = settings.OPENAI_API_KEY
         if not self.api_key:
             logger.warning("OPENAI_API_KEY not found in environment variables")
         else:
